@@ -30,13 +30,24 @@
         }
       </script>
       
+        <script>
+        function showContactInfo() {
+          var email = prompt("Enter your email ");
+          if (email) {
+            alert("This is my number: 413-234-6333 add me ");
+          } else {
+            alert("Sorry you are not eligible! Add your name or your email!.");
+          }
+        }
+</script>
+        
       <header class="bg-blue-900 text-white py-4 px-6">
           <div class="container mx-auto flex items-center justify-between">
             <h1 class="text-2xl font-medium">My Website</h1>
             <nav class="hidden md:flex">
               <a href="" target="_blank" class="text-white hover:text-blue-500 mr-4">Home</a>
               <a href="#" class="text-white hover:text-blue-500 mr-4">About</a>            
-              <a href="#" class="text-white hover:text-blue-500 mr-4">Contact</a>
+              <a href="#" class="text-white hover:text-blue-500 mr-4"onclick="showContactInfo()">Contact</a>
               <a href="#" class="text-white hover:text-blue-500" onclick="showSecretInfo()">Secret Info </a>
             </nav>
           </div>
