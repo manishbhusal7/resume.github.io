@@ -50,44 +50,54 @@
     <input type="text" class="input-box" id="input-box">
     <button class="send-btn" onclick="sendMessage()">Send</button>
   </div>
+<script> 
+function sendMessage() {
+  var inputBox = document.getElementById("input-box");
+  var outputBox = document.getElementById("output-box");
+  var input = inputBox.value;
+  inputBox.value = "";
 
-  <script>
-    function sendMessage() {
-      var inputBox = document.getElementById("input-box");
-      var outputBox = document.getElementById("output-box");
-      var input = inputBox.value;
-      inputBox.value = "";
+  if (input.toLowerCase().includes("name")) {
+    typeMessage(outputBox, "His Full Name is Manish Bhusal.");
+  } else if (input.toLowerCase().includes("age")) {
+    typeMessage(outputBox, "Manish is 19 years old.");
+  } else if (input.toLowerCase().includes("from")) {
+    typeMessage(outputBox, "Manish is from Nepal.");
+  } else if (input.toLowerCase().includes("doing")) {
+    typeMessage(outputBox, "Manish is currently a student who is doing his bachelors in computer and information science.");
+  } else if (input.toLowerCase().includes("hello ")) {
+    typeMessage(outputBox, "Hi! Ask me few question about Manish or I can crack a Joke");
+  
+  } else if (input.toLowerCase().includes("family")) {
+    typeMessage(outputBox, "Manish has 6 members in his family.");
+  } else if (input.toLowerCase().includes("joke")) {
+    typeMessage(outputBox, "I don't know many jokes, but I can say it for you. Do you know why Math was sad? Because he had too many problems! Hahaha");
+  } else if (input.toLowerCase().includes("rolemodel")) {
+    typeMessage(outputBox, "Cristiano Ronaldo is his Role-Model.");
+  } else if (input.toLowerCase().includes("hobby")) {
+    typeMessage(outputBox, "Manish loves playing basketball and football.");
+  } else if (input.toLowerCase().includes("hire")) {
+    typeMessage(outputBox, "Absolutely, he is very hardworking guy. To be honest, he has a great problem solving skill.");
+  } else {
+    typeMessage(outputBox, "I'm sorry, I can't say about that right now. Email Manish about that.");
+  }
+}
 
-
-      if (input.toLowerCase().includes("name")) {
-        outputBox.innerHTML += "<br>" + "His Full Name is Manish Bhusal.";
-      
-      } else if (input.toLowerCase().includes("age")) {
-        outputBox.innerHTML += "<br>" + "Manish is 19 years old.";
-      } else if (input.toLowerCase().includes("From")) {
-        outputBox.innerHTML += "<br>" + "Manish is from Nepal ";
-      } else if (input.toLowerCase().includes("doing")) {
-        outputBox.innerHTML += "<br>" + "Manish is currently a student who is doing his bachelors in computer and information science.";
-    } else if (input.toLowerCase().includes("hello")) {
-        outputBox.innerHTML += "<br>" + "Hi !! Ask me few question about Manish.";
-    } else if (input.toLowerCase().includes("hi")) {
-        outputBox.innerHTML += "<br>" + "Hi !! Ask me few question about Manish or I can crack a Joke";
-    } else if (input.toLowerCase().includes("family")) {
-        outputBox.innerHTML += "<br>" + "Manish has 6 members in his family.";
-    } else if (input.toLowerCase().includes("joke")) {
-        outputBox.innerHTML += "<br>" + "I dont Know many Jokes but I can say it for you. Do you Know why Math was Sad Cuz He had too many Problems!! hahaha";
-    
-    } else if (input.toLowerCase().includes("rolemodel")) {
-        outputBox.innerHTML += "<br>" + "Cristiano Ronaldo is his Role-Model.";
-    } else if (input.toLowerCase().includes("hobby")) {
-        outputBox.innerHTML += "<br>" + "Manish loves playing basketball and Football.";
-      } else if (input.toLowerCase().includes("hire")) {
-        outputBox.innerHTML += "<br>" + "Absolutely, He is very hardworking guy. To be honest He has a great problem Solving Skill.";
-    
-      } else {
-        outputBox.innerHTML += "<br>" + "I'm sorry, I cant say about that right now. Email Manish about that";
-      }
+function typeMessage(outputBox, message) {
+  var i = 0;
+  var typingInterval = setInterval(function() {
+    outputBox.innerHTML += message.charAt(i);
+    i++;
+    if (i > message.length - 1) {
+      clearInterval(typingInterval);
     }
+  }, 50);
+  outputBox.innerHTML += "<br>";
+}
+
+
   </script>
+  
+  
 </body>
 </html>
