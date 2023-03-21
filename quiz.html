@@ -4,59 +4,84 @@
   <style>
     .chatbot {
       width: 500px;
-      height: 500px;
+      height: auto;
       background-color: #bb920c;
       border-radius: 10px;
       padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
     }
-
     .input-box {
-      width: 100%;
-      height: 50px;
-      border-radius: 5px;
-      border: 1px solid black;
-      padding: 10px;
-      margin-top: 20px;
-    }
+  width: 100%;
+  height: 50px;
+  border-radius: 5px;
+  border: none;
+  background-color: #fff;
+  padding: 10px;
+  margin-top: 20px;
+  font-size: 16px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
 
-    .output-box {
-      width: 100%;
-      height: 150px;
-      border-radius: 5px;
-      border: 1px solid black;
-      padding: 10px;
-      margin-top: 20px;
-      overflow-y: scroll;
-    }
+.output-box {
+  width: 100%;
+  height: 150px;
+  border-radius: 5px;
+  border: none;
+  background-color: #fff;
+  padding: 10px;
+  margin-top: 20px;
+  overflow-y: scroll;
+  font-size: 16px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
 
-    .send-btn {
-      width: 100px;
-      height: 50px;
-      border-radius: 5px;
-      border: 1px solid black;
-      background-color: #4c82af;
-      color: white;
-      margin-top: 20px;
-      float: right;
-      cursor: pointer;
-    }
-  </style>
+.send-btn {
+  width: 100px;
+  height: 50px;
+  border-radius: 5px;
+  border: none;
+  background-color: #4c82af;
+  color: white;
+  margin-top: 20px;
+  cursor: pointer;
+  font-size: 16px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.send-btn:hover {
+  background-color: #2c3e50;
+}
+
+.chatbot__title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 20px;
+  text-align: center;
+}
+</style>
 </head>
 <body>
   <div class="chatbot">
+    <div class="chatbot__title">Chatbot</div>
     <div class="output-box" id="output-box">
-      I am Chat-bot. You can Ask me his personal information like: Name,Age,hobby,RoleModel. You can also ask me if you can hire Manish or not
+      I am Chat-bot. You can ask me his personal information like: Name, Age, hobby, RoleModel. You can also ask me if you can hire Manish or not.
     </div>
-    <input type="text" class="input-box" id="input-box">
+    <input type="text" class="input-box" id="input-box" placeholder="Type your message here...">
     <button class="send-btn" onclick="sendMessage()">Send</button>
   </div>
-<script> 
-function sendMessage() {
+  <script> 
+    function sendMessage() {
   var inputBox = document.getElementById("input-box");
   var outputBox = document.getElementById("output-box");
   var input = inputBox.value;
   inputBox.value = "";
-
+  
   if (input.toLowerCase().includes("name")) {
     typeMessage(outputBox, "His Full Name is Manish Bhusal.");
   } else if (input.toLowerCase().includes("age")) {
@@ -65,7 +90,7 @@ function sendMessage() {
     typeMessage(outputBox, "Manish is from Nepal.");
   } else if (input.toLowerCase().includes("doing")) {
     typeMessage(outputBox, "Manish is currently a student who is doing his bachelors in computer and information science.");
-  } else if (input.toLowerCase().includes("hello ")) {
+  } else if (input.toLowerCase().includes("Hello ")) {
     typeMessage(outputBox, "Hi! Ask me few question about Manish or I can crack a Joke");
   
   } else if (input.toLowerCase().includes("family")) {
@@ -78,11 +103,14 @@ function sendMessage() {
     typeMessage(outputBox, "Manish loves playing basketball and football.");
   } else if (input.toLowerCase().includes("hire")) {
     typeMessage(outputBox, "Absolutely, he is very hardworking guy. To be honest, he has a great problem solving skill.");
+} else if (input.toLowerCase().includes("hi")) {
+    typeMessage(outputBox, "Hi Ask me some questions about Manish.");
+} else if (input.toLowerCase().includes("hello")) {
+    typeMessage(outputBox, "Hello I only have few information right now. I am programmed by Manish");
   } else {
     typeMessage(outputBox, "I'm sorry, I can't say about that right now. Email Manish about that.");
   }
 }
-
 function typeMessage(outputBox, message) {
   var i = 0;
   var typingInterval = setInterval(function() {
@@ -95,7 +123,9 @@ function typeMessage(outputBox, message) {
   outputBox.innerHTML += "<br>";
 }
 
+
   </script>
-  
+
 </body>
+
 </html>
