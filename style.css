@@ -355,11 +355,12 @@ form input,
 textarea {
   padding: 15px;
   border-radius: 0.5rem;
-  width: 100%;
+  width: 50%;
   border: none;
   outline: none;
   background: hsla(260, 100%, 44%, 0.1);
   margin-bottom: 1rem;
+  margin-left: 27%;
   color: var(--text-color);
 }
 
@@ -374,14 +375,14 @@ form textarea {
 }
 
 .contact-button {
-  width: 160px;
+  width: 100px;
   cursor: pointer;
   background: #2768d9;
   color: #fff;
   justify-content: center;
   text-transform: uppercase;
   letter-spacing: 1px;
-  margin-left: 35%;
+  margin-left: 47%;
 }
 
 .contact-button:hover {
@@ -561,4 +562,37 @@ form textarea {
   .contact-button {
     margin-left: 25%;
   }
+}
+
+
+
+
+
+
+/* Success Message Styles */
+.message-box {
+  background-color: #e9f7ef;
+  border: 2px solid #2ecc71;
+  color: #27ae60;
+  padding: 20px 40px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-top: 100px; /* Adjust depending on the layout */
+}
+
+.message-box h1 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.message-box p {
+  font-size: 1.2rem;
+  margin-top: 10px;
+}
+
+.icon {
+  font-size: 3rem;
+  color: #2ecc71;
+  margin-bottom: 10px;
 }

@@ -169,14 +169,14 @@
                                     <h2>Contact</h2>
                                     <span>Connect With Me </span>
                                 </div>
-                                <div class="contact-form">
-                                    <form action="send.php" method="post">
-                                        <input type="text" name="name" placeholder="Your Name">
-                                        <input type="email" name="email" placeholder="Your Email">
-                                        <textarea name="message" cols="30" rows="10" placeholder="Write Message Here..."></textarea>
-                                        <input type="submit" name="submit" value="Send" class="contact-button">
-                                    </form>
-                                </div>
+                                <form action="/api/send" method="post">
+                                    <input type="text" name="name" placeholder="Your Name" required>
+                                    <input type="email" name="email" placeholder="Your Email" required>
+                                    <textarea name="message" cols="30" rows="10" placeholder="Write Message Here..." required></textarea>
+                                    <input type="submit" name="submit" value="Send" class="contact-button">
+                                </form>
+                                
+                            
                             </section>
                             <!-- Contact Section End -->
                          <div class="footer">

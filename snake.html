@@ -1,247 +1,191 @@
-<!--SNAKE GAME-->
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Snake Game</title>
-  <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
-  <style>
-  html, body {
-    height: 100%;
-    margin: 0;
-  }
-  body {
-    background: black;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  canvas {
-      border: 1px solid #fff;
-      background-color: #262626;
-      box-shadow: 0 0 10px #fff;
-    }
- 
-  #p1
-  {
-    color:rgb(119, 0, 255);
-	position:absolute;
-	left:100px;
-	top:10px;
-  }
-    #p2
-  {
-    color:rgb(68, 0, 255);
-	position:absolute;
-	left:100px;
-	top:30px;
-  }
-  #score
-  {
-    color:rgb(21, 255, 0);
-    position:absolute;
-	left:155px;
-	top:10px;
-  }
-  #high
-  {
-    color:rgb(9, 255, 0);
-    position:absolute;
-	  left:195px;
-	  top:30px;
-  }
-  #btn_stop
-  {
-    color:brown;
-    position:absolute;
-	  left:100px;
-	  top:80px;
-  }
-  #end_msg
-  {
-    color:brown;
-    position:absolute;
-	  left:100px;
-	  top:100px;
-  }
-  </style>
-</head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personality Quiz</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #e0f7fa;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .quiz-container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            max-width: 700px;
+            width: 100%;
+            animation: fadeIn 1.5s ease;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        h1 {
+            text-align: center;
+            color: #00796b;
+            margin-bottom: 30px;
+        }
+        .question {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+            color: #37474f;
+        }
+        .options {
+            list-style: none;
+            padding: 0;
+        }
+        .options li {
+            margin: 10px 0;
+        }
+        .options input {
+            margin-right: 10px;
+        }
+        .options li:hover {
+            background-color: #e0f2f1;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+            padding: 5px;
+        }
+        button {
+            display: inline-block;
+            background-color: #00796b;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1em;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        button:hover {
+            background-color: #004d40;
+            transform: scale(1.05);
+        }
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+            text-align: center;
+            color: #00796b;
+            animation: popIn 1s ease;
+        }
+        @keyframes popIn {
+            0% {
+                transform: scale(0);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
 </head>
 <body>
-    <p id="p1">SCORE:</p>
-    <p id="p2">HIGHSCORE:</p>
-    <p id="score"></p>
-    <p id="high"></p>
-    <button id="btn_stop" >Stop Snake Game</button>
-    <p id="end_msg"></p>
-    <canvas width="400" height="400" id="game"></canvas>
-    <script>
-    var canvas = document.getElementById('game');
-    var context = canvas.getContext('2d');
-    var grid = 16;
-    var count = 0;
-    var score=0;
-    //reading  last score value 
-    if(localStorage.score){
-      document.getElementById('score').innerHTML=localStorage.score; 
-    }
-    
-    var max=0;  
-    
-    var snake = {
-      x: 160,
-      y: 160,
-      
-      // snake velocity. moves one grid length every frame in either the x or y direction
-      dx: grid,
-      dy: 0,
-      
-      // keep track of all grids the snake body occupies
-      cells: [],
-      
-      // length of the snake. grows when eating an apple
-      maxCells: 4
-    };
-    var apple = {
-      x: 320,
-      y: 320
-    };
-    
-    // get random whole numbers in a specific range
-    
-    function getRandomInt(min, max) {
-      return Math.floor(Math.random() * (max - min)) + min;
-    }
-    
-    // game loop
-    function loop() {
-      
-      requestAnimationFrame(loop);
-      // slow game loop to 15 fps instead of 60 (60/15 = 4)
-      if (++count < 10) {
-        return;
-      }
-      count = 0;
-      context.clearRect(0,0,canvas.width,canvas.height);
-      // move snake by it's velocity
-      snake.x += snake.dx;
-      snake.y += snake.dy;
-      // wrap snake position horizontally on edge of screen
-      if (snake.x < 0) {
-        snake.x = canvas.width - grid;
-      }
-      else if (snake.x >= canvas.width) {
-        snake.x = 0;
-      }
-      
-      // wrap snake position vertically on edge of screen
-      if (snake.y < 0) {
-        snake.y = canvas.height - grid;
-      }
-      else if (snake.y >= canvas.height) {
-        snake.y = 0;
-      }
-      // keep track of where snake has been. front of the array is always the head
-      snake.cells.unshift({x: snake.x, y: snake.y});
-      // remove cells as we move away from them
-      if (snake.cells.length > snake.maxCells) {
-        snake.cells.pop();
-      }
-      // draw apple
-      context.fillStyle = 'red';
-      context.fillRect(apple.x, apple.y, grid-1, grid-1);
-      // draw snake one cell at a time
-      context.fillStyle = 'green';
-      snake.cells.forEach(function(cell, index) {
-        
-        // drawing 1 px smaller than the grid creates a grid effect in the snake body so you can see how long it is
-        context.fillRect(cell.x, cell.y, grid-1, grid-1);  
-        // snake ate apple
-        if (cell.x === apple.x && cell.y === apple.y) {
-          snake.maxCells++;
-          score+=1;
-        //saving score for next playing.
-        localStorage.setItem('score',score);
-          //max=score;
-          document.getElementById('score').innerHTML=score;
-        
-          // canvas is 400x400 which is 25x25 grids 
-          apple.x = getRandomInt(0, 25) * grid;
-          apple.y = getRandomInt(0, 25) * grid;
-        }
-        // check collision with all cells after this one (modified bubble sort)
-        for (var i = index + 1; i < snake.cells.length; i++)
-        {
-          
-          // snake occupies same space as a body part. reset game
-          if (cell.x === snake.cells[i].x && cell.y === snake.cells[i].y) 
-         { 
-         
-            if(score>max)
-            {
-             max=score;
+
+<div class="quiz-container">
+    <h1>Personality Quiz</h1>
+    <div id="quiz">
+        <div class="question-container" id="question-1">
+            <p class="question">1. How do Manish prefer to spend your weekend?</p>
+            <ul class="options">
+                <li><label><input type="radio" name="q1" value="A"> Socializing with friends or family</label></li>
+                <li><label><input type="radio" name="q1" value="B"> Reading or watching movies</label></li>
+                <li><label><input type="radio" name="q1" value="C"> Exploring new hobbies or learning new skills</label></li>
+                <li><label><input type="radio" name="q1" value="D"> Spending time outdoors</label></li>
+            </ul>
+        </div>
+
+        <div class="question-container" id="question-2">
+            <p class="question">2. What motivates Manish the most in life?</p>
+            <ul class="options">
+                <li><label><input type="radio" name="q2" value="A"> Achieving success and recognition</label></li>
+                <li><label><input type="radio" name="q2" value="B"> Helping others and making a difference</label></li>
+                <li><label><input type="radio" name="q2" value="C"> Personal growth and learning</label></li>
+                <li><label><input type="radio" name="q2" value="D"> Having fun and enjoying the moment</label></li>
+            </ul>
+        </div>
+
+        <div class="question-container" id="question-3">
+            <p class="question">3. Which of these best describes Manish work style?</p>
+            <ul class="options">
+                <li><label><input type="radio" name="q3" value="A"> I like to collaborate and work in teams</label></li>
+                <li><label><input type="radio" name="q3" value="B"> I prefer working independently</label></li>
+                <li><label><input type="radio" name="q3" value="C"> I like taking charge and leading projects</label></li>
+                <li><label><input type="radio" name="q3" value="D"> I enjoy brainstorming and coming up with creative ideas</label></li>
+            </ul>
+        </div>
+
+        <div class="question-container" id="question-4">
+            <p class="question">4. How do Manish handle stress in challenging situations?</p>
+            <ul class="options">
+                <li><label><input type="radio" name="q4" value="A"> I stay calm and focus on solving the problem</label></li>
+                <li><label><input type="radio" name="q4" value="B"> I take breaks and disconnect for a while</label></li>
+                <li><label><input type="radio" name="q4" value="C"> I talk to someone to get advice</label></li>
+                <li><label><input type="radio" name="q4" value="D"> I find creative ways to work through the stress</label></li>
+            </ul>
+        </div>
+
+        <div class="question-container" id="question-5">
+            <p class="question">5. What is Manish's greatest strength?</p>
+            <ul class="options">
+                <li><label><input type="radio" name="q5" value="A"> Communication and social skills</label></li>
+                <li><label><input type="radio" name="q5" value="B"> Creativity and innovation</label></li>
+                <li><label><input type="radio" name="q5" value="C"> Problem-solving and logical thinking</label></li>
+                <li><label><input type="radio" name="q5" value="D"> Resilience and determination</label></li>
+            </ul>
+        </div>
+
+        <button id="submit" onclick="submitQuiz()">Submit Answers</button>
+        <div id="result"></div>
+    </div>
+</div>
+
+<script>
+    function submitQuiz() {
+        const answers = {
+            q1: 'B', // Example: assumed answers for demonstration
+            q2: 'C',
+            q3: 'A',
+            q4: 'A',
+            q5: 'D'
+        };
+
+        let score = 0;
+        let totalQuestions = 5;
+
+        for (let i = 1; i <= totalQuestions; i++) {
+            let question = document.querySelector(`input[name="q${i}"]:checked`);
+            if (question && question.value === answers[`q${i}`]) {
+                score++;
             }
-            snake.x = 160;
-            snake.y = 160;
-            snake.cells = [];
-            snake.maxCells = 4;
-            snake.dx = grid;
-            snake.dy = 0;
-            //score=0;
-            apple.x = getRandomInt(0, 25) * grid;
-            apple.y = getRandomInt(0, 25) * grid;
-            document.getElementById('high').innerHTML=max;
-          }
         }
-      }  
-      );  
+
+        const resultDiv = document.getElementById('result');
+        resultDiv.textContent = `You scored ${score} out of ${totalQuestions}!`;
+
+        document.getElementById('submit').disabled = true;
     }
-    // listen to keyboard events to move the snake
-    document.addEventListener('keydown', function(e) {
-      // prevent snake from backtracking on itself by checking that it's 
-      // not already moving on the same axis (pressing left while moving
-      // left won't do anything, and pressing right while moving left
-      // shouldn't let you collide with your own body)
-      
-      // left arrow key
-      if (e.which === 37 && snake.dx === 0) {
-        snake.dx = -grid;
-        snake.dy = 0;
-      }
-      // up arrow key
-      else if (e.which === 38 && snake.dy === 0) {
-        snake.dy = -grid;
-        snake.dx = 0;
-      }
-      // right arrow key
-      else if (e.which === 39 && snake.dx === 0) {
-        snake.dx = grid;
-        snake.dy = 0;
-      }
-      // down arrow key
-      else if (e.which === 40 && snake.dy === 0) {
-        snake.dy = grid;
-        snake.dx = 0;
-      }
-    });
-    // start the game
-    requestAnimationFrame(loop);
-    
-    
-    
-    
-    function myFunction() {
-      document.getElementById('end_msg').innerHTML="";
-      alert('Press confirm to continue');
-    }
-    
-    //stop playing
-    $(document).ready(function(){
-            $('#btn_stop').click(function(){
-          document.getElementById('end_msg').innerHTML="Game stoped by player" ;
-          setTimeout(myFunction, 1000);	
-            });
-        });
-    
-    </script>
-    </body>
-    </html>
+</script>
+
+</body>
+</html>
